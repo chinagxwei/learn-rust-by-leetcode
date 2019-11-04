@@ -160,7 +160,7 @@ pub fn length_of_longest_substring(s: String) -> i32 {
 /// 来源：力扣（LeetCode）
 /// 链接：https://leetcode-cn.com/problems/median-of-two-sorted-arrays
 /// 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
-///
+
 /// 算法实现
 pub fn find_median_sorted_arrays_1(mut nums1: Vec<i32>, mut nums2: Vec<i32>) -> f64 {
     let (mut n1_len, mut n2_len) = (nums1.len(), nums2.len());
@@ -233,11 +233,11 @@ pub fn find_median_sorted_arrays_2(mut nums1: Vec<i32>, mut nums2: Vec<i32>) -> 
         nums_concat.sort_by(|x, y| x.cmp(y));
         get_median(nums_concat)
     }
-
 }
+
 #[cfg(test)]
 mod test {
-    use crate::{two_sum, ListNode, add_two_numbers, length_of_longest_substring};
+    use crate::{two_sum, ListNode, add_two_numbers, length_of_longest_substring, find_median_sorted_arrays_1, find_median_sorted_arrays_2};
 
     #[test]
     fn test_two_sum() {
@@ -281,5 +281,13 @@ mod test {
     fn test_length_of_longest_substring() {
         let ans = length_of_longest_substring(String::from("abcabcbb"));
         assert_eq!(ans, 3)
+    }
+
+    #[test]
+    fn test_find_median_sorted_arrays() {
+        let res = find_median_sorted_arrays_1([1, 2].to_vec(), [3, 4].to_vec());
+        assert_eq!(res, 2.5);
+        let res = find_median_sorted_arrays_2([1, 2].to_vec(), [3].to_vec());
+        assert_eq!(res, 2 as f64);
     }
 }
