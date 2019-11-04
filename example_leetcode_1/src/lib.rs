@@ -160,8 +160,9 @@ pub fn length_of_longest_substring(s: String) -> i32 {
 /// 来源：力扣（LeetCode）
 /// 链接：https://leetcode-cn.com/problems/median-of-two-sorted-arrays
 /// 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
-
-pub fn find_median_sorted_arrays(mut nums1: Vec<i32>, mut nums2: Vec<i32>) -> f64 {
+///
+/// 算法实现
+pub fn find_median_sorted_arrays_1(mut nums1: Vec<i32>, mut nums2: Vec<i32>) -> f64 {
     let (mut n1_len, mut n2_len) = (nums1.len(), nums2.len());
     if n1_len > n2_len {
         let re = nums1;
@@ -208,6 +209,32 @@ pub fn find_median_sorted_arrays(mut nums1: Vec<i32>, mut nums2: Vec<i32>) -> f6
     0.0
 }
 
+/// 标准库实现
+pub fn find_median_sorted_arrays_2(mut nums1: Vec<i32>, mut nums2: Vec<i32>) -> f64 {
+    fn get_median(v: Vec<i32>) -> f64 {
+        let len = v.len();
+        if len % 2 == 0 {
+            let m_lhs = (len / 2) as usize - 1;
+            (v[m_lhs] + v[m_lhs + 1]) as f64 / 2 as f64
+        } else {
+            let m = ((len - 1) / 2) as usize;
+            v[m] as f64
+        }
+    }
+
+    if nums1.len() == 0 {
+        get_median(nums2)
+    } else if nums2.len() == 0 {
+        get_median(nums1)
+    } else {
+        let mut nums_concat = vec![];
+        nums_concat.extend_from_slice(&nums1);
+        nums_concat.extend_from_slice(&nums2);
+        nums_concat.sort_by(|x, y| x.cmp(y));
+        get_median(nums_concat)
+    }
+
+}
 #[cfg(test)]
 mod test {
     use crate::{two_sum, ListNode, add_two_numbers, length_of_longest_substring};
