@@ -156,14 +156,56 @@ pub fn length_of_longest_substring(s: String) -> i32 {
 /// nums2 = [3, 4]
 ///
 /// 则中位数是 (2 + 3)/2 = 2.5
-///[1,2,3,4]
+/// 
 /// 来源：力扣（LeetCode）
 /// 链接：https://leetcode-cn.com/problems/median-of-two-sorted-arrays
 /// 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 
-pub fn find_median_sorted_arrays(nums1: Vec<i32>, nums2: Vec<i32>) -> f64 {
-    let (n1_len, n2_len) = (nums1.len(), nums2.len());
+pub fn find_median_sorted_arrays(mut nums1: Vec<i32>, mut nums2: Vec<i32>) -> f64 {
+    let (mut n1_len, mut n2_len) = (nums1.len(), nums2.len());
+    if n1_len > n2_len {
+        let re = nums1;
+        nums1 = nums2;
+        nums2 = re;
+        let re = n1_len;
+        n1_len = n2_len;
+        n2_len = re;
+    }
+    let (mut min, mut max, mut half_len) = (0, n1_len, (n1_len + n2_len + 1) / 2);
+    while min <= max {
+        let i = (min + max) / 2;
+        let j = half_len - i;
+        if (i < max) && (nums2[j - 1] > nums1[i]) {
+            min = i + 1;
+        } else if (i > min) && (nums1[i - 1] > nums2[j]) {
+            max = i - 1;
+        } else {
+            let mut max_left = 0;
 
+            if i == 0 {
+                max_left = nums2[j - 1];
+            } else if j == 0 {
+                max_left = nums1[i - 1];
+            } else {
+                max_left = nums1[i - 1].max(nums2[j - 1])
+            }
+
+            if (n1_len + n2_len % 2) == 1 {
+                return max_left as f64;
+            }
+
+            let mut min_right = 0;
+
+            if i == n1_len {
+                min_right = nums2[j];
+            } else if j == n2_len {
+                min_right = nums1[i]
+            } else {
+                min_right = nums1[i].min(nums2[j]);
+            }
+            return ((max_left + min_right) / 2) as f64;
+        }
+    }
     0.0
 }
 
