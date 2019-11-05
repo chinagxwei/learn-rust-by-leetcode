@@ -259,7 +259,7 @@ pub fn find_median_sorted_arrays_2(mut nums1: Vec<i32>, mut nums2: Vec<i32>) -> 
 ///
 /// 马拉车算法
 ///
-pub fn longest_palindrome(mut s: String) -> String {
+pub fn longest_palindrome(s: String) -> String {
     if s.len() < 1 || s.len() > 1000 { return "".to_string(); }
     let str_format: String = {
         let mut str_vec = {
@@ -285,7 +285,7 @@ pub fn longest_palindrome(mut s: String) -> String {
 
         //判断中心字符两侧一样字符的数量
         let (mut left, mut right) = (index + 1 + p[index], index - 1 - p[index]);
-        while str_format.get(left..left + 1).unwrap() == str_format.get(right..right + 1).unwrap() {
+        while str_format.get(left..=left).unwrap() == str_format.get(right..=right).unwrap() {
             p[index] += 1;
             left = index + 1 + p[index];
             right = index - 1 - p[index];
@@ -313,7 +313,7 @@ pub fn longest_palindrome(mut s: String) -> String {
 
 #[cfg(test)]
 mod test {
-    use crate::{two_sum, ListNode, add_two_numbers, length_of_longest_substring, find_median_sorted_arrays_1, find_median_sorted_arrays_2};
+    use crate::{two_sum, ListNode, add_two_numbers, length_of_longest_substring, find_median_sorted_arrays_1, find_median_sorted_arrays_2, longest_palindrome};
 
     #[test]
     fn test_two_sum() {
@@ -365,5 +365,11 @@ mod test {
         assert_eq!(res, 2.5);
         let res = find_median_sorted_arrays_2([1, 2].to_vec(), [3].to_vec());
         assert_eq!(res, 2 as f64);
+    }
+
+    #[test]
+    fn test_longest_palindrome() {
+        let res = longest_palindrome("dabcba".to_string());
+        assert_eq!(res, String::from("abcba"))
     }
 }
