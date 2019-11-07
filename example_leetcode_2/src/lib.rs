@@ -33,11 +33,8 @@
 
 pub fn convert(s: String, num_rows: i32) -> String {
     if num_rows == 1 { return s }
-    let mut rows: Vec<String> = vec![];
-    let take = num_rows.min(s.len() as i32);
-    for _ in (0..take).rev() {
-        rows.push(String::new())
-    }
+    let take = num_rows.min(s.len() as i32) as usize;
+    let mut rows= vec![String::new(); take];
     let (mut cur_row, mut going_down) = (0_i32, false);
     for ch in s.chars() {
         rows[cur_row as usize].push(ch);
