@@ -2,7 +2,7 @@ use std::collections::HashMap;
 use std::borrow::{Borrow, BorrowMut};
 use std::str::Chars;
 
-///
+/// 1.
 /// 给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那 两个 整数，并返回他们的数组下标。
 ///
 /// 你可以假设每种输入只会对应一个答案。但是，你不能重复利用这个数组中同样的元素。
@@ -33,7 +33,7 @@ pub fn two_sum(nums: Vec<i32>, target: i32) -> Vec<i32> {
     out
 }
 
-///
+/// 2.
 /// 给出两个 非空 的链表用来表示两个非负的整数。其中，它们各自的位数是按照 逆序 的方式存储的，并且它们的每个节点只能存储 一位 数字。
 ///
 /// 如果，我们将这两个数相加起来，则会返回一个新的链表来表示它们的和。
@@ -99,7 +99,7 @@ pub fn add_two_numbers(l1: Option<Box<ListNode>>, l2: Option<Box<ListNode>>) -> 
 }
 
 
-///
+/// 3.
 /// 给定一个字符串，请你找出其中不含有重复字符的 最长子串 的长度。
 ///
 /// 示例 1:
@@ -137,7 +137,7 @@ pub fn length_of_longest_substring(s: String) -> i32 {
     ans as i32
 }
 
-///
+/// 4.
 /// 给定两个大小为 m 和 n 的有序数组 nums1 和 nums2。
 ///
 /// 请你找出这两个有序数组的中位数，并且要求算法的时间复杂度为 O(log(m + n))。
@@ -239,7 +239,7 @@ pub fn find_median_sorted_arrays_2(mut nums1: Vec<i32>, mut nums2: Vec<i32>) -> 
     }
 }
 
-///
+/// 5.
 /// 给定一个字符串 s，找到 s 中最长的回文子串。你可以假设 s 的最大长度为 1000。
 ///
 /// 示例 1：
