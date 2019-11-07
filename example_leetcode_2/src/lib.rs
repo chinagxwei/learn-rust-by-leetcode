@@ -188,7 +188,7 @@ pub fn is_palindrome(x: i32) -> bool {
 
 #[cfg(test)]
 mod test {
-    use crate::{convert, reverse, my_atoi};
+    use crate::{convert, reverse, my_atoi, is_palindrome};
 
     #[test]
     fn test_convert() {
@@ -206,5 +206,13 @@ mod test {
     fn test_my_atoi() {
         let res = my_atoi(String::from("   -42"));
         assert_eq!(res, -42);
+    }
+
+    #[test]
+    fn test_is_palindrome(){
+        let res = is_palindrome(121);
+        debug_assert!(res);
+        let res = is_palindrome(123);
+        debug_assert!(!res);
     }
 }
