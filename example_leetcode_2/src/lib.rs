@@ -40,7 +40,7 @@ pub fn convert(s: String, num_rows: i32) -> String {
     }
     let (mut cur_row, mut going_down) = (0_i32, false);
     for ch in s.chars() {
-        rows.get_mut(cur_row as usize).unwrap().push(ch);
+        rows[cur_row as usize].push(ch);
         if cur_row == 0 || cur_row == (num_rows - 1) { going_down = !going_down }
         cur_row += if going_down { 1 } else { -1 }
     }
