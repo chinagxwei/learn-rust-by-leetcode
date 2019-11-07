@@ -34,16 +34,15 @@
 pub fn convert(s: String, num_rows: i32) -> String {
     if num_rows == 1 { return s }
     let take = num_rows.min(s.len() as i32) as usize;
-    let mut rows= vec![String::new(); take];
-    let (mut cur_row, mut going_down) = (0_i32, false);
+    let mut rows = vec![String::new(); take];
+    let (mut cur_row, mut going_down, mut ret) = (0_i32, false, String::new());
     for ch in s.chars() {
         rows[cur_row as usize].push(ch);
         if cur_row == 0 || cur_row == (num_rows - 1) { going_down = !going_down }
-        cur_row += if going_down { 1 } else { -1 }
+        if going_down { cur_row += 1 } else { cur_row -= 1 };
     }
-    let mut ret = String::new();
     for row in rows {
-        ret.push_str(row.as_str())
+        ret.push_str(&row)
     }
     ret
 }
