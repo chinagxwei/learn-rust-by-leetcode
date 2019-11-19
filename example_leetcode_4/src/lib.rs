@@ -227,7 +227,7 @@ pub fn remove_nth_from_end_1(head: Option<Box<ListNode>>, n: i32) -> Option<Box<
 }
 
 /// 一次遍历
-pub fn remove_nth_from_end_2(mut head: Option<Box<ListNode>>, mut n: i32) -> Option<Box<ListNode>> {
+pub fn remove_nth_from_end_2(head: Option<Box<ListNode>>, mut n: i32) -> Option<Box<ListNode>> {
     let first = {
         let mut tmp = &head;
         while n != 0 {
