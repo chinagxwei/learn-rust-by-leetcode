@@ -204,32 +204,25 @@ impl ListNode {
 /// 两次遍历
 pub fn remove_nth_from_end_1(head: Option<Box<ListNode>>, n: i32) -> Option<Box<ListNode>> {
     let mut len = 0;
-    {
-        let mut find = &head;
-        while find.is_some() {
-            if let Some(v) = find {
-                find = &v.next
-            }
-            len += 1;
+    let mut find = &head;
+    while find.is_some() {
+        if let Some(v) = find {
+            find = &v.next
         }
-        len = len - n;
+        len += 1;
     }
-
+    len = len - n;
     let mut dummy = Some(Box::new(ListNode { val: 0, next: head }));
-
-    {
-        let mut edit = &mut dummy;
-        while len > 0 {
-            if let Some(v) = edit {
-                edit = &mut v.next
-            }
-            len -= 1;
-        }
+    let mut edit = &mut dummy;
+    while len > 0 {
         if let Some(v) = edit {
-            v.next = v.next.as_ref().unwrap().next.clone();
+            edit = &mut v.next
         }
+        len -= 1;
     }
-
+    if let Some(v) = edit {
+        v.next = v.next.as_ref().unwrap().next.clone();
+    }
     dummy.unwrap().next
 }
 
