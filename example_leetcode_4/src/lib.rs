@@ -203,16 +203,14 @@ impl ListNode {
 
 /// 两次遍历
 pub fn remove_nth_from_end_1(head: Option<Box<ListNode>>, n: i32) -> Option<Box<ListNode>> {
+    let mut dummy = Some(Box::new(ListNode { val: 0, next: head }));
+    let mut find = &dummy.as_ref().unwrap().next;
     let mut len = 0;
-    let mut find = &head;
-    while find.is_some() {
-        if let Some(v) = find {
-            find = &v.next
-        }
+    while let Some(v) = find {
+        find = &v.next;
         len += 1;
     }
     len = len - n;
-    let mut dummy = Some(Box::new(ListNode { val: 0, next: head }));
     let mut edit = &mut dummy;
     while len > 0 {
         if let Some(v) = edit {
@@ -221,15 +219,16 @@ pub fn remove_nth_from_end_1(head: Option<Box<ListNode>>, n: i32) -> Option<Box<
         len -= 1;
     }
     if let Some(v) = edit {
-        v.next = v.next.as_ref().unwrap().next.clone();
+        v.next = v.next.as_mut().unwrap().next.take();
     }
     dummy.unwrap().next
 }
 
 /// 一次遍历
 pub fn remove_nth_from_end_2(head: Option<Box<ListNode>>, mut n: i32) -> Option<Box<ListNode>> {
+    let mut dummy = Some(Box::new(ListNode { val: 0, next: head }));
     let first = {
-        let mut tmp = &head;
+        let mut tmp = &dummy.as_ref().unwrap().next;
         while n != 0 {
             if let Some(v) = tmp {
                 tmp = &(v.next)
@@ -238,18 +237,15 @@ pub fn remove_nth_from_end_2(head: Option<Box<ListNode>>, mut n: i32) -> Option<
         }
         tmp.clone()
     };
-    let mut dummy = Some(Box::new(ListNode { val: 0, next: head }));
     let (mut f, mut s) = (&first, &mut dummy);
-    while f.is_some() {
-        if let Some(v) = f {
-            f = &v.next
-        }
+    while let Some(v) = f {
+        f = &v.next;
         if let Some(y) = s {
             s = &mut y.next
         }
     }
     if let Some(v) = s {
-        v.next = v.next.as_ref().unwrap().next.clone();
+        v.next = v.next.as_mut().unwrap().next.take();
     }
     dummy.unwrap().next
 }
