@@ -86,11 +86,11 @@ mod test {
         );
         let res = merge_two_lists_1(l1, l2);
         println!("{:?}", res);
-//        let (l1, l2) = (
-//            Some(Box::new(ListNode { val: 1, next: Some(Box::new(ListNode { val: 3, next: Some(Box::new(ListNode { val: 5, next: None })) })) })),
-//            Some(Box::new(ListNode { val: 1, next: Some(Box::new(ListNode { val: 2, next: Some(Box::new(ListNode { val: 3, next: None })) })) }))
-//        );
-//        let res = merge_two_lists_2(l1, l2);
-//        println!("{:?}", res)
+        let (l1, l2) = (
+            Some(Box::new(ListNode { val: 1, next: Some(Box::new(ListNode { val: 3, next: Some(Box::new(ListNode { val: 5, next: None })) })) })),
+            Some(Box::new(ListNode { val: 1, next: Some(Box::new(ListNode { val: 2, next: Some(Box::new(ListNode { val: 3, next: None })) })) }))
+        );
+        let res = merge_two_lists_2(l1, l2);
+        println!("{:?}", res)
     }
 }
