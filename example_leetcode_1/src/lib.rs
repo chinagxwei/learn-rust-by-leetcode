@@ -1,6 +1,4 @@
 use std::collections::HashMap;
-use std::borrow::{Borrow, BorrowMut};
-use std::str::Chars;
 
 /// 1.
 ///
@@ -75,21 +73,20 @@ pub fn add_two_numbers(l1: Option<Box<ListNode>>, l2: Option<Box<ListNode>>) -> 
     let mut carry = 0;
     let (mut p1, mut p2) = (&l1, &l2);
     while p1.is_some() || p2.is_some() {
-        let mut x = 0;
-        let mut y = 0;
+        let (mut x, mut y) = (0, 0);
         if let Some(v) = p1 {
             x = v.val;
-            p1 = v.next.borrow();
+            p1 = &v.next;
         }
         if let Some(v) = p2 {
             y = v.val;
-            p2 = v.next.borrow();
+            p2 = &v.next;
         }
         let sum = carry + x + y;
         carry = sum / 10;
         if let Some(v) = ref_head {
             v.next = Some(Box::new(ListNode::new(sum % 10)));
-            ref_head = v.next.borrow_mut();
+            ref_head = &mut v.next;
         }
     }
     if carry > 0 {
@@ -128,11 +125,10 @@ pub fn add_two_numbers(l1: Option<Box<ListNode>>, l2: Option<Box<ListNode>>) -> 
 ///
 
 pub fn length_of_longest_substring(s: String) -> i32 {
-    let mut ans = 0;
-    let mut start = 0;
+    let (mut ans, mut start) = (0, 0);
     let mut map: HashMap<char, usize> = HashMap::new();
     for (index, ch) in s.chars().enumerate() {
-        start = start.max(*map.get(ch.borrow()).unwrap_or(&0));
+        start = start.max(*map.get(&ch).unwrap_or(&0));
         //判断存储子串长度是否大于检查子串长度，小于检查子串长度获取子串长度
         ans = ans.max(index - start + 1);
         map.insert(ch, index + 1);
