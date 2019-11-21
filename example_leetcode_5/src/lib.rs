@@ -1,3 +1,5 @@
+use std::borrow::BorrowMut;
+
 #[derive(PartialEq, Eq, Clone, Debug)]
 pub struct ListNode {
     pub val: i32,
@@ -116,9 +118,75 @@ pub fn generate_parenthesis(n: i32) -> Vec<String> {
     ans
 }
 
+/// 23.
+///
+/// 合并 k 个排序链表，返回合并后的排序链表。请分析和描述算法的复杂度。
+///
+/// 示例:
+///
+/// 输入:
+/// [
+///   1->4->5,
+///   1->3->4,
+///   2->6
+/// ]
+/// 输出: 1->1->2->3->4->4->5->6
+///
+/// 来源：力扣（LeetCode）
+/// 链接：https://leetcode-cn.com/problems/merge-k-sorted-lists
+/// 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+///
+
+///使用两两合并合并列表
+pub fn merge_k_lists(mut lists: Vec<Option<Box<ListNode>>>) -> Option<Box<ListNode>> {
+    while lists.len() > 1 {
+        let mut tmp_lists = vec![];
+        while let Some(l1) = lists.pop() {
+            if let Some(l2) = lists.pop() {
+                tmp_lists.push(merge_two_lists_2(l1, l2));
+            } else {
+                tmp_lists.push(l1);
+            }
+        }
+        lists = tmp_lists;
+    }
+    lists.pop().unwrap_or(None)
+}
+
+/// 24.
+///
+/// 给定一个链表，两两交换其中相邻的节点，并返回交换后的链表。
+///
+/// 你不能只是单纯的改变节点内部的值，而是需要实际的进行节点交换。
+///
+///  
+///
+/// 示例:
+///
+/// 给定 1->2->3->4, 你应该返回 2->1->4->3.
+///
+/// 来源：力扣（LeetCode）
+/// 链接：https://leetcode-cn.com/problems/swap-nodes-in-pairs
+/// 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+///
+
+pub fn swap_pairs(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
+    let mut dummy = Some(Box::new(ListNode { val: 0, next: head }));
+    let mut point = &mut dummy;
+    while point.as_ref().unwrap().next.is_some() && point.as_ref().unwrap().next.as_ref().unwrap().next.is_some() {
+        let mut left = point.as_mut().unwrap().next.take();
+        let mut right = left.as_mut().unwrap().next.take();
+        left.as_mut().unwrap().next = right.as_mut().unwrap().next.take();
+        right.as_mut().unwrap().next = left;
+        point.as_mut().unwrap().next = right;
+        point = &mut point.as_mut().unwrap().next.as_mut().unwrap().next;
+    }
+    dummy.unwrap().next
+}
+
 #[cfg(test)]
 mod test {
-    use crate::{ListNode, merge_two_lists_1, merge_two_lists_2, generate_parenthesis};
+    use crate::{ListNode, merge_two_lists_1, merge_two_lists_2, generate_parenthesis, merge_k_lists, swap_pairs};
 
     #[test]
     fn test_merge_two_lists() {
@@ -170,6 +238,45 @@ mod test {
     fn test_generate_parenthesis() {
         let res = generate_parenthesis(2);
         println!("{:?}", res);
-        assert_eq!(res,["(())", "()()"])
+        assert_eq!(res, ["(())", "()()"])
+    }
+
+    #[test]
+    fn test_merge_k_lists() {
+        let lists = vec![
+            Some(Box::new(ListNode { val: 1, next: Some(Box::new(ListNode { val: 4, next: Some(Box::new(ListNode { val: 5, next: None })) })) })),
+            Some(Box::new(ListNode { val: 1, next: Some(Box::new(ListNode { val: 3, next: Some(Box::new(ListNode { val: 4, next: None })) })) })),
+            Some(Box::new(ListNode { val: 2, next: Some(Box::new(ListNode { val: 6, next: None })) }))
+        ];
+
+        let res = merge_k_lists(lists);
+        println!("{:?}", res);
+    }
+
+    #[test]
+    fn test_swap_pairs() {
+        let head = Some(Box::new(ListNode {
+            val: 1,
+            next:
+            Some(Box::new(ListNode {
+                val: 2,
+                next:
+                Some(Box::new(ListNode {
+                    val: 3,
+                    next:
+                    Some(Box::new(ListNode {
+                        val: 4,
+                        next:
+                        Some(Box::new(ListNode {
+                            val: 5,
+                            next:
+                            Some(Box::new(ListNode { val: 6, next: None })),
+                        })),
+                    })),
+                })),
+            })),
+        }));
+        let res = swap_pairs(head);
+        println!("{:?}", res);
     }
 }
