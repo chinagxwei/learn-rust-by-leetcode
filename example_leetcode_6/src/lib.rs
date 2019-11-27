@@ -139,7 +139,7 @@ pub fn str_str(haystack: String, needle: String) -> i32 {
     if needle_len <= 0 { return 0; }
     let (haystack_u8, needle_u8) = (haystack.as_bytes(), needle.as_bytes());
     for h in 0..haystack_len {
-        if haystack_len - h < needle_len { break }
+        if haystack_len - h < needle_len { break; }
         if haystack_u8[h] == needle_u8[0] {
             let mut len = needle_len;
             for n in 0..needle_len {
@@ -153,9 +153,95 @@ pub fn str_str(haystack: String, needle: String) -> i32 {
     -1
 }
 
+/// 29.
+///
+/// 给定两个整数，被除数 dividend 和除数 divisor。将两数相除，要求不使用乘法、除法和 mod 运算符。
+///
+/// 返回被除数 dividend 除以除数 divisor 得到的商。
+///
+/// 示例 1:
+///
+/// 输入: dividend = 10, divisor = 3
+/// 输出: 3
+/// 示例 2:
+///
+/// 输入: dividend = 7, divisor = -3
+/// 输出: -2
+/// 说明:
+///
+/// 被除数和除数均为 32 位有符号整数。
+/// 除数不为 0。
+/// 假设我们的环境只能存储 32 位有符号整数，其数值范围是 [−231,  231 − 1]。本题中，如果除法结果溢出，则返回 231 − 1。
+///
+/// 来源：力扣（LeetCode）
+/// 链接：https://leetcode-cn.com/problems/divide-two-integers
+/// 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+///
+
+pub fn divide(dividend: i32, divisor: i32) -> i32 {
+    if dividend == std::i32::MIN && divisor == -1 { return std::i32::MAX; }
+    let (mut dividend_mut, mut divisor_mut, mut flag_mut) = (dividend, divisor, 1);
+    if dividend_mut > 0 {
+        dividend_mut = -dividend_mut;
+    } else {
+        flag_mut = -flag_mut;
+    }
+    if divisor_mut > 0 {
+        divisor_mut = -divisor_mut
+    } else {
+        flag_mut = -flag_mut;
+    }
+
+    let (mut res, mut tmp, mut k) = (0, 0, 0);
+    while dividend_mut <= divisor_mut {
+        tmp = divisor_mut;
+        k = 1;
+        while dividend_mut <= tmp + tmp && tmp + tmp < 0 {
+            tmp += tmp;
+            k += k;
+        }
+        res = res + k;
+        dividend_mut -= tmp
+    }
+    if flag_mut > 0 { res } else { -res }
+}
+
+/// 30.
+///
+/// 给定一个字符串 s 和一些长度相同的单词 words。找出 s 中恰好可以由 words 中所有单词串联形成的子串的起始位置。
+///
+/// 注意子串要与 words 中的单词完全匹配，中间不能有其他字符，但不需要考虑 words 中单词串联的顺序。
+///
+///  
+///
+/// 示例 1：
+///
+/// 输入：
+///   s = "barfoothefoobarman",
+///   words = ["foo","bar"]
+/// 输出：[0,9]
+/// 解释：
+/// 从索引 0 和 9 开始的子串分别是 "barfoo" 和 "foobar" 。
+/// 输出的顺序不重要, [9,0] 也是有效答案。
+/// 示例 2：
+///
+/// 输入：
+///   s = "wordgoodgoodgoodbestword",
+///   words = ["word","good","best","word"]
+/// 输出：[]
+///
+/// 来源：力扣（LeetCode）
+/// 链接：https://leetcode-cn.com/problems/substring-with-concatenation-of-all-words
+/// 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+///
+
+pub fn find_substring(s: String, words: Vec<String>) -> Vec<i32> {
+    vec![0]
+}
+
 #[cfg(test)]
 mod test {
-    use crate::{remove_duplicates, remove_element, str_str};
+    use crate::{remove_duplicates, remove_element, str_str, divide, find_substring};
 
     #[test]
     fn test_remove_duplicates() {
@@ -178,14 +264,27 @@ mod test {
     }
 
     #[test]
-    fn test_str_str(){
-        let res = str_str(String::from("hello"),String::from("ll"));
+    fn test_str_str() {
+        let res = str_str(String::from("hello"), String::from("ll"));
         assert_eq!(res, 2);
-        let res = str_str(String::from("hello"),String::from(""));
+        let res = str_str(String::from("hello"), String::from(""));
         assert_eq!(res, 0);
-        let res = str_str(String::from("hello"),String::from("hello world"));
+        let res = str_str(String::from("hello"), String::from("hello world"));
         assert_eq!(res, -1);
-        let res = str_str(String::from("aaaaaa"),String::from("bbc"));
+        let res = str_str(String::from("aaaaaa"), String::from("bbc"));
         assert_eq!(res, -1);
+    }
+
+    #[test]
+    fn test_divide() {
+        let res = divide(10, 3);
+        assert_eq!(res, 3);
+        let res = divide(7, -3);
+        assert_eq!(res, -2);
+    }
+
+    #[test]
+    fn test_find_substring() {
+        let res = find_substring(String::from("barfoothefoobarman"), vec![String::from("foo"), String::from("bar")]);
     }
 }
