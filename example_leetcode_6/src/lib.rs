@@ -244,9 +244,7 @@ pub fn find_substring(s: String, words: Vec<String>) -> Vec<i32> {
     } else {
         word_len = words[0].len();
     }
-
     let (mut needs, mut window) = (HashMap::<String, i32>::new(), HashMap::<String, i32>::new());
-
     for i in 0..words_len {
         needs.entry(words[i].to_string()).and_modify(|e| *e += 1).or_insert(1);
     }
