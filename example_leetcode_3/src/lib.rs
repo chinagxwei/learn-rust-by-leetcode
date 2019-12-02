@@ -1,5 +1,3 @@
-use std::collections::HashMap;
-
 /// 11.
 ///
 /// 给定 n 个非负整数 a1，a2，...，an，每个数代表坐标中的一个点 (i, ai) 。在坐标内画 n 条垂直线，
@@ -264,7 +262,7 @@ pub fn longest_common_prefix(strs: Vec<String>) -> String {
 pub fn three_sum(mut nums: Vec<i32>) -> Vec<Vec<i32>> {
     let (mut ans, nums_len) = (vec![], nums.len());
     if nums_len < 3 { return ans; }
-    nums.sort();
+    nums.sort_unstable();
     for i in 0..nums_len {
         if nums[i] > 0 { break; }
         if i > 0 && nums[i] == nums[i - 1] { continue; }
