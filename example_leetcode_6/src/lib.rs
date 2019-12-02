@@ -331,5 +331,7 @@ mod test {
     fn test_find_substring() {
         let res = find_substring(String::from("barfoothefoobarman"), vec![String::from("foo"), String::from("bar")]);
         assert_eq!(res, [0, 9]);
+        let res = find_substring(String::from("wordgoodgoodgoodbestword"), vec!["word".to_string(), "good".to_string(), "best".to_string(), "word".to_string()]);
+        assert_eq!(res, []);
     }
 }
