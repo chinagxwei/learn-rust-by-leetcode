@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 /// 26.
 ///
 /// 给定一个排序数组，你需要在原地删除重复出现的元素，使得每个元素只出现一次，返回移除后数组的新长度。
@@ -236,7 +238,53 @@ pub fn divide(dividend: i32, divisor: i32) -> i32 {
 ///
 
 pub fn find_substring(s: String, words: Vec<String>) -> Vec<i32> {
-    vec![0]
+    let (mut word_len, words_len, mut result) = (0, words.len(), vec![]);
+    if s.len() == 0 || words_len == 0 || words[0].len() > s.len() {
+        return result;
+    } else {
+        word_len = words[0].len();
+    }
+
+    let (mut needs, mut window) = (HashMap::<String, i32>::new(), HashMap::<String, i32>::new());
+
+    for i in 0..words_len {
+        let counter = needs.entry(words[i].to_string()).or_insert(0);
+        *counter += 1;
+    }
+    let (mut left, mut right) = (0, 0);
+    for i in 0..word_len {
+        left = i;
+        right = i;
+        let mut match_count = 0;
+        while right <= (s.len() - word_len) {
+            let s_sub = &s[right..right + word_len];
+            right += word_len;
+            if needs.contains_key(s_sub) {
+                let counter = window.entry(s_sub.to_string()).or_insert(0);
+                *counter += 1;
+                if needs.contains_key(s_sub) && window.get(s_sub).unwrap() == needs.get(s_sub).unwrap() {
+                    match_count += 1;
+                }
+                while left < right && match_count == needs.len() {
+                    if (right - left) / word_len == words_len {
+                        result.push(left as i32);
+                    }
+                    let s_sub_2 = &s[left..left + word_len];
+                    left += word_len;
+                    window.entry(s_sub_2.to_string()).and_modify(|e| *e -= 1);
+                    if needs.contains_key(s_sub_2) && window.get(s_sub_2).unwrap() < needs.get(s_sub_2).unwrap() {
+                        match_count -= 1;
+                    }
+                }
+            }else{
+                match_count = 0;
+                left = right;
+                window.clear();
+            }
+        }
+        window.clear();
+    }
+    result
 }
 
 #[cfg(test)]
@@ -286,5 +334,6 @@ mod test {
     #[test]
     fn test_find_substring() {
         let res = find_substring(String::from("barfoothefoobarman"), vec![String::from("foo"), String::from("bar")]);
+        assert_eq!(res, [0, 9]);
     }
 }
