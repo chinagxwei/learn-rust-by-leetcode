@@ -248,8 +248,7 @@ pub fn find_substring(s: String, words: Vec<String>) -> Vec<i32> {
     let (mut needs, mut window) = (HashMap::<String, i32>::new(), HashMap::<String, i32>::new());
 
     for i in 0..words_len {
-        let counter = needs.entry(words[i].to_string()).or_insert(0);
-        *counter += 1;
+        needs.entry(words[i].to_string()).and_modify(|e| *e += 1).or_insert(1);
     }
     let (mut left, mut right) = (0, 0);
     for i in 0..word_len {
@@ -260,8 +259,7 @@ pub fn find_substring(s: String, words: Vec<String>) -> Vec<i32> {
             let s_sub = &s[right..right + word_len];
             right += word_len;
             if needs.contains_key(s_sub) {
-                let counter = window.entry(s_sub.to_string()).or_insert(0);
-                *counter += 1;
+                window.entry(s_sub.to_string()).and_modify(|e| *e += 1).or_insert(1);
                 if needs.contains_key(s_sub) && window.get(s_sub).unwrap() == needs.get(s_sub).unwrap() {
                     match_count += 1;
                 }
@@ -276,7 +274,7 @@ pub fn find_substring(s: String, words: Vec<String>) -> Vec<i32> {
                         match_count -= 1;
                     }
                 }
-            }else{
+            } else {
                 match_count = 0;
                 left = right;
                 window.clear();
