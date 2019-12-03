@@ -18,11 +18,11 @@ use std::collections::HashMap;
 /// 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 ///
 pub fn two_sum(nums: Vec<i32>, target: i32) -> Vec<i32> {
-    let mut hm: HashMap<i32, i32> = HashMap::new();
-    let mut out: Vec<i32> = vec![];
+    let mut hm = HashMap::<i32, i32>::new();
+    let mut out = vec![];
     for index in 0..nums.len() {
         let diff = target - nums[index];
-        if let Some(_x) = hm.get(&diff) {
+        if hm.get(&diff).is_some() {
             out.push(*hm.get(&diff).unwrap());
             out.push(index as i32);
             break;
@@ -126,7 +126,7 @@ pub fn add_two_numbers(l1: Option<Box<ListNode>>, l2: Option<Box<ListNode>>) -> 
 
 pub fn length_of_longest_substring(s: String) -> i32 {
     let (mut ans, mut start) = (0, 0);
-    let mut map: HashMap<char, usize> = HashMap::new();
+    let mut map = HashMap::<char, usize>::new();
     for (index, ch) in s.chars().enumerate() {
         start = start.max(*map.get(&ch).unwrap_or(&0));
         //判断存储子串长度是否大于检查子串长度，小于检查子串长度获取子串长度
@@ -271,7 +271,7 @@ pub fn longest_palindrome(s: String) -> String {
         str_vec.join("#")
     };
     let sss_len = str_format.len();
-    let mut p: Vec<usize> = vec![0; sss_len];
+    let mut p = vec![0; sss_len];
     //c表示中心下标，r表示右侧半径
     let (mut c, mut r) = (0 as i32, 0);
     for (index, _) in str_format.chars().enumerate() {
