@@ -278,18 +278,6 @@ pub fn count_and_say(n: i32) -> String {
     String::from(result)
 }
 
-pub fn count_and_say_2(n: i32) -> String {
-    let a = String::from("1211");
-    let mut start = 0;
-    let mut end = 0;
-
-    while start < a.len() {}
-
-
-    String::from("result")
-}
-
-
 #[cfg(test)]
 mod test {
     use crate::{is_valid_sudoku, solve_sudoku_1, solve_sudoku_2, count_and_say};
