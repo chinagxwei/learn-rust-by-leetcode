@@ -1,3 +1,6 @@
+use std::mem;
+use std::borrow::{BorrowMut, Borrow};
+
 /// 4.
 ///
 /// 给定两个大小为 m 和 n 的有序数组 nums1 和 nums2。
@@ -30,12 +33,8 @@ impl Solution {
         let (mut n1_len, mut n2_len) = (nums1.len(), nums2.len());
         let (mut nums1_mut, mut nums2_mut) = (nums1, nums2);
         if n1_len > n2_len {
-            let re = nums1_mut;
-            nums1_mut = nums2_mut;
-            nums2_mut = re;
-            let re = n1_len;
-            n1_len = n2_len;
-            n2_len = re;
+            mem::swap::<Vec<i32>>(nums1_mut.borrow_mut(), nums2_mut.borrow_mut());
+            mem::swap::<usize>(n1_len.borrow_mut(), n2_len.borrow_mut())
         }
         let (mut min, mut max) = (0, n1_len);
         while min <= max {
@@ -77,7 +76,7 @@ impl Solution {
     ///
     /// 标准库实现
     ///
-    pub fn find_median_sorted_arrays_2( nums1: Vec<i32>, nums2: Vec<i32>) -> f64 {
+    pub fn find_median_sorted_arrays_2(nums1: Vec<i32>, nums2: Vec<i32>) -> f64 {
         let (mut nums1_mut, mut nums2_mut) = (nums1, nums2);
         fn get_median(v: Vec<i32>) -> f64 {
             let len = v.len();
@@ -96,8 +95,8 @@ impl Solution {
             get_median(nums1_mut)
         } else {
             let mut nums_concat = vec![];
-            nums_concat.extend_from_slice(&nums1_mut);
-            nums_concat.extend_from_slice(&nums2_mut);
+            nums_concat.extend_from_slice(nums1_mut.borrow());
+            nums_concat.extend_from_slice(nums2_mut.borrow());
             nums_concat.sort_by(|x, y| x.cmp(y));
             get_median(nums_concat)
         }
