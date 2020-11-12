@@ -1,0 +1,11 @@
+mod problems_31_next_permutation;
+mod problems_33_search_in_rotated_sorted_array;
+mod problems_32_longest_valid_parentheses;
+mod problems_34_find_first_and_last_position_of_element_in_sorted_array;
+mod problems_35_search_insert_position;
+mod problems_36_valid_sudoku;
+mod problems_37_sudoku_solver;
+mod problems_38_count_and_say;
+mod problems_39_combination_sum;
+mod problems_40_combination_sum_ii;
+
