@@ -17,24 +17,20 @@
 ///
 
 use std::collections::HashMap;
-use std::borrow::Borrow;
 
 pub struct Solution;
 
 impl Solution {
     pub fn two_sum(nums: Vec<i32>, target: i32) -> Vec<i32> {
         let mut hm: HashMap<i32, i32> = HashMap::new();
-        let mut out: Vec<i32> = vec![];
-        for index in 0..nums.len() {
-            let diff = target - nums[index];
-            if let Some(_x) = hm.get(diff.borrow()) {
-                out.push(*hm.get(diff.borrow()).unwrap());
-                out.push(index as i32);
-                break;
+        for (i,v) in nums.into_iter().enumerate() {
+            if hm.contains_key(&(target - v)) {
+                return vec![*hm.get(&(target - v)).unwrap() as i32, i as i32]
+            }else {
+                hm.insert(v,i as i32);
             }
-            hm.insert(nums[index], index as i32);
         }
-        out
+        vec![]
     }
 }
 
