@@ -27,8 +27,10 @@ use std::collections::HashMap;
 ///
 
 struct Solution;
+
 impl Solution {
     pub fn length_of_longest_substring(s: String) -> i32 {
+        if s.len() == 0 { return 0; }
         let (mut ans, mut start) = (0, 0);
         let mut map = HashMap::<char, usize>::new();
         for (index, ch) in s.chars().enumerate() {

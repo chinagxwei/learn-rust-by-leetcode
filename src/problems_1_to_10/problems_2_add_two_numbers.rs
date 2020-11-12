@@ -33,31 +33,29 @@ impl ListNode {
     }
 }
 
-use std::borrow::{Borrow, BorrowMut};
-
 struct Solution;
 
 impl Solution {
     pub fn add_two_numbers(l1: Option<Box<ListNode>>, l2: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
         let mut dummy_head = Some(Box::new(ListNode::new(0)));
-        let mut head_ref = dummy_head.borrow_mut();
+        let mut head_ref = &mut dummy_head;
         let mut carry = 0;
-        let (mut l1_ref, mut l2_ref) = (l1.borrow(), l2.borrow());
+        let (mut l1_ref, mut l2_ref) = (&l1, &l2);
         while l1_ref.is_some() || l2_ref.is_some() {
             let (mut x, mut y) = (0, 0);
             if let Some(v) = l1_ref {
                 x = v.val;
-                l1_ref = v.next.borrow();
+                l1_ref = &v.next;
             }
             if let Some(v) = l2_ref {
                 y = v.val;
-                l2_ref = v.next.borrow();
+                l2_ref = &v.next;
             }
             let sum = carry + x + y;
             carry = sum / 10;
             if let Some(v) = head_ref {
                 v.next = Some(Box::new(ListNode::new(sum % 10)));
-                head_ref = v.next.borrow_mut();
+                head_ref = &mut v.next;
             }
         }
         if carry > 0 {
